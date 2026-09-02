@@ -1,19 +1,7 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
 import StoryBars from "./StoryBars";
 
-type FrameAspect =
-  | "1/1"
-  | "3/4"
-  | "4/3"
-  | "4/4.2"
-  | "4/4.4"
-  | "4/4.6"
-  | "4/4.8"
-  | "4/5"
-  | "9/16";
-
-const aspectClasses: Record<FrameAspect, string> = {
+const aspectClasses = {
   "1/1": "aspect-square",
   "3/4": "aspect-[3/4]",
   "4/3": "aspect-[4/3]",
@@ -23,18 +11,6 @@ const aspectClasses: Record<FrameAspect, string> = {
   "4/4.8": "aspect-[4/4.8]",
   "4/5": "aspect-[4/5]",
   "9/16": "aspect-[9/16]",
-};
-
-type FrameProps = {
-  src: string;
-  alt: string;
-  aspect: FrameAspect;
-  sizes: string;
-  chip?: string;
-  priority?: boolean;
-  className?: string;
-  imageClassName?: string;
-  children?: ReactNode;
 };
 
 export default function Frame({
@@ -47,7 +23,7 @@ export default function Frame({
   className = "",
   imageClassName = "",
   children,
-}: FrameProps) {
+}) {
   return (
     <span
       className={`relative block overflow-hidden rounded-media bg-wine ${aspectClasses[aspect]} ${className}`}

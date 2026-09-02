@@ -1,16 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { CaseCategory, CaseId } from "@/data/cases";
 import { CARDS } from "@/data/cards";
 import CaseOverlay from "./CaseOverlay";
 import Container from "./ui/Container";
 import Frame from "./ui/Frame";
 import SectionHead from "./ui/SectionHead";
 
-type Filter = CaseCategory | "all";
-
-const FILTERS: { label: string; value: Filter }[] = [
+const FILTERS = [
   { label: "Wszystkie", value: "all" },
   { label: "Gastronomia", value: "gastro" },
   { label: "Hotele i noclegi", value: "hotel" },
@@ -19,9 +16,9 @@ const FILTERS: { label: string; value: Filter }[] = [
 ];
 
 export default function Works() {
-  const [filter, setFilter] = useState<Filter>("all");
-  const [selectedCase, setSelectedCase] = useState<CaseId | null>(null);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const [filter, setFilter] = useState("all");
+  const [selectedCase, setSelectedCase] = useState(null);
+  const triggerRef = useRef(null);
   const visibleCards = CARDS.filter((card) => filter === "all" || card.cat === filter);
 
   return (

@@ -1,26 +1,18 @@
 "use client";
 
 import {
-  type RefObject,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import { CASE_ORDER, CASES, type CaseId } from "@/data/cases";
+import { CASE_ORDER, CASES } from "@/data/cases";
 import Button from "./ui/Button";
 import Container from "./ui/Container";
 import Display from "./ui/Display";
 import Eyebrow from "./ui/Eyebrow";
 import Frame from "./ui/Frame";
-
-type CaseOverlayProps = {
-  caseId: CaseId;
-  onClose: () => void;
-  onSelectCase: (id: CaseId) => void;
-  returnFocusRef: RefObject<HTMLButtonElement | null>;
-};
 
 const focusableSelector = [
   "a[href]",
@@ -40,11 +32,11 @@ export default function CaseOverlay({
   onClose,
   onSelectCase,
   returnFocusRef,
-}: CaseOverlayProps) {
+}) {
   const currentCase = CASES[caseId];
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const closeButtonRef = useRef(null);
   const closingRef = useRef(false);
-  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -54,7 +46,7 @@ export default function CaseOverlay({
   }, [caseId]);
 
   const finishClose = useCallback(
-    (returnFocus: boolean, jumpToContact: boolean) => {
+    (returnFocus, jumpToContact) => {
       onClose();
 
       if (jumpToContact) {
@@ -119,7 +111,7 @@ export default function CaseOverlay({
   }, [open]);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         event.preventDefault();
         close();
@@ -136,8 +128,8 @@ export default function CaseOverlay({
       }
 
       const focusable = Array.from(
-        overlay.querySelectorAll<HTMLElement>(focusableSelector),
-      ).filter((element) => element.offsetParent !== null);
+        overlay.querySelectorAll(focusableSelector),
+      ).filter((element) => !element.hasAttribute("disabled"));
 
       if (focusable.length === 0) {
         event.preventDefault();
@@ -217,7 +209,7 @@ export default function CaseOverlay({
           <div>
             <Eyebrow>{currentCase.catLabel}</Eyebrow>
             <Display
-              as="h1"
+              as="h2"
               id="caseTitle"
               className="mt-3.5 mb-4 text-[clamp(2.2rem,5vw,3.8rem)]"
             >

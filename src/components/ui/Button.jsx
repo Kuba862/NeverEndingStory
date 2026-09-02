@@ -1,15 +1,3 @@
-import type { MouseEventHandler, ReactNode } from "react";
-
-type ButtonProps = {
-  children: ReactNode;
-  className?: string;
-  href?: string;
-  onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
-  size?: "base" | "sm";
-  type?: "button" | "submit" | "reset";
-  variant?: "solid" | "ghost";
-};
-
 export default function Button({
   children,
   className = "",
@@ -18,7 +6,7 @@ export default function Button({
   size = "base",
   type = "button",
   variant = "solid",
-}: ButtonProps) {
+}) {
   const classes = [
     "inline-flex items-center gap-2.5 rounded-full font-bold tracking-[.01em] transition-[background,color,transform] duration-[180ms] hover:-translate-y-px",
     size === "sm" ? "px-[18px] py-2.5 text-[.88rem]" : "px-6 py-[13px] text-[.95rem]",
@@ -33,7 +21,7 @@ export default function Button({
       <a
         href={href}
         className={classes}
-        onClick={onClick as MouseEventHandler<HTMLAnchorElement>}
+        onClick={onClick}
       >
         {children}
       </a>
@@ -43,7 +31,7 @@ export default function Button({
   return (
     <button
       type={type}
-      onClick={onClick as MouseEventHandler<HTMLButtonElement>}
+      onClick={onClick}
       className={classes}
     >
       {children}

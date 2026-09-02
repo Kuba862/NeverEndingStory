@@ -1,22 +1,24 @@
-export type CaseCategory = "gastro" | "hotel" | "beauty" | "brand";
+/**
+ * @typedef {'gastro'|'hotel'|'beauty'|'brand'} CaseCategory
+ * @typedef {'salute'|'franca'|'szara'|'campanile'|'dermestic'|'yasumi'|'namnam'} CaseId
+ * @typedef {Object} Case
+ * @property {string} id
+ * @property {string} name
+ * @property {CaseCategory} cat
+ * @property {string} catLabel
+ * @property {string} hero
+ * @property {string[]} tags
+ * @property {string} challenge
+ * @property {string} solution
+ * @property {{num: string, lbl: string}[]} kpis
+ * @property {{src: string, sq?: boolean}[]} [gallery]
+ * @property {string[]} [reels]
+ * @property {string[]} [brand]
+ * @property {string} [quote]
+ * @property {string} [quoteSrc]
+ */
 
-export type Case = {
-  id: string;
-  name: string;
-  cat: CaseCategory;
-  catLabel: string;
-  hero: string;
-  tags: string[];
-  challenge: string;
-  solution: string;
-  kpis: { num: string; lbl: string }[];
-  gallery?: { src: string; sq?: boolean }[];
-  reels?: string[];
-  brand?: string[];
-  quote?: string;
-  quoteSrc?: string;
-};
-
+/** @type {CaseId[]} */
 export const CASE_ORDER = [
   "salute",
   "franca",
@@ -25,11 +27,10 @@ export const CASE_ORDER = [
   "dermestic",
   "yasumi",
   "namnam",
-] as const;
+];
 
-export type CaseId = (typeof CASE_ORDER)[number];
-
-export const CASES: Record<CaseId, Case> = {
+/** @type {Record<CaseId, Case>} */
+export const CASES = {
   salute: {
     id: "salute",
     name: "Salute Wine Bar",

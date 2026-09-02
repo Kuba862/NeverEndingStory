@@ -1,22 +1,14 @@
-import type { ReactNode } from "react";
 import Container from "./Container";
 import Display from "./Display";
 import Eyebrow from "./Eyebrow";
 import Reveal from "./Reveal";
-
-type SectionHeadProps = {
-  eyebrow: string;
-  children: ReactNode;
-  lead?: string;
-  dark?: boolean;
-};
 
 export default function SectionHead({
   eyebrow,
   children,
   lead,
   dark = false,
-}: SectionHeadProps) {
+}) {
   return (
     <Reveal>
       <Container>

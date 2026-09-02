@@ -49,17 +49,19 @@ export const PROCESS_STEPS = [
   },
 ];
 
-export type HomeKpi = {
-  count: number;
-  label: string;
-  source: string;
-  prefix?: string;
-  suffix?: string;
-  decimal?: string;
-  staticValue?: string;
-};
+/**
+ * @typedef {Object} HomeKpi
+ * @property {number} count
+ * @property {string} label
+ * @property {string} source
+ * @property {string} [prefix]
+ * @property {string} [suffix]
+ * @property {string} [decimal]
+ * @property {string} [staticValue]
+ */
 
-export const KPIS: HomeKpi[] = [
+/** @type {HomeKpi[]} */
+export const KPIS = [
   {
     count: 1500,
     prefix: "+",

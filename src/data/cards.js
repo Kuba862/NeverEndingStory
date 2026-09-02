@@ -1,14 +1,16 @@
-import type { CaseCategory, CaseId } from "./cases";
+/**
+ * @typedef {'gastro'|'hotel'|'beauty'|'brand'} CaseCategory
+ * @typedef {'salute'|'franca'|'szara'|'campanile'|'dermestic'|'yasumi'|'namnam'} CaseId
+ * @typedef {Object} PortfolioCard
+ * @property {CaseId} id
+ * @property {string} img
+ * @property {string} name
+ * @property {CaseCategory} cat
+ * @property {string} catLabel
+ */
 
-export type PortfolioCard = {
-  id: CaseId;
-  img: string;
-  name: string;
-  cat: CaseCategory;
-  catLabel: string;
-};
-
-export const CARDS: PortfolioCard[] = [
+/** @type {PortfolioCard[]} */
+export const CARDS = [
   {
     id: "salute",
     img: "/images/cases/salute-hero.jpg",

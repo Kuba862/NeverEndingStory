@@ -9,10 +9,20 @@ import Services from "@/components/Services";
 import Team from "@/components/Team";
 import Testimonials from "@/components/Testimonials";
 import Works from "@/components/Works";
+import {
+  LOCAL_BUSINESS_JSON_LD,
+  serializeJsonLd,
+} from "@/lib/structured-data";
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(LOCAL_BUSINESS_JSON_LD),
+        }}
+      />
       <Nav />
       <main>
         <Hero />

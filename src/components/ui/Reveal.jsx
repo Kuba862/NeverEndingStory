@@ -1,28 +1,16 @@
 "use client";
 
-import {
-  type RefCallback,
-  type ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
-type RevealProps = {
-  as?: "div" | "article" | "li";
-  children: ReactNode;
-  className?: string;
-};
+import { useEffect, useRef, useState } from "react";
 
 export default function Reveal({
   as: Component = "div",
   children,
   className = "",
-}: RevealProps) {
-  const ref = useRef<HTMLElement | null>(null);
+}) {
+  const ref = useRef(null);
   const [armed, setArmed] = useState(false);
   const [visible, setVisible] = useState(true);
-  const setNode: RefCallback<HTMLElement> = (node) => {
+  const setNode = (node) => {
     ref.current = node;
   };
 
@@ -40,7 +28,7 @@ export default function Reveal({
       return;
     }
 
-    let observer: IntersectionObserver | null = null;
+    let observer = null;
 
     const frame = window.requestAnimationFrame(() => {
       setVisible(false);

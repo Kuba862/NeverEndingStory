@@ -29,8 +29,8 @@ export default function Nav() {
         <div
           id={menuId}
           className={[
-            "ml-auto flex gap-[26px] text-[.92rem] font-semibold",
-            "max-[900px]:absolute max-[900px]:top-full max-[900px]:right-0 max-[900px]:left-0 max-[900px]:ml-0 max-[900px]:flex-col max-[900px]:gap-4 max-[900px]:border-b max-[900px]:border-ink/16 max-[900px]:bg-paper max-[900px]:px-(--pad) max-[900px]:pt-[18px] max-[900px]:pb-[22px]",
+            "nav__actions ml-auto flex items-baseline gap-[26px] text-[.92rem] font-semibold",
+            "max-[900px]:absolute max-[900px]:top-full max-[900px]:right-0 max-[900px]:left-0 max-[900px]:ml-0 max-[900px]:flex-col max-[900px]:items-start max-[900px]:gap-4 max-[900px]:border-b max-[900px]:border-ink/16 max-[900px]:bg-paper max-[900px]:px-(--pad) max-[900px]:pt-[18px] max-[900px]:pb-[22px]",
             open ? "max-[900px]:flex" : "max-[900px]:hidden",
           ].join(" ")}
         >
@@ -48,15 +48,11 @@ export default function Nav() {
             href="#kontakt"
             size="sm"
             onClick={closeMenu}
-            className="mt-1.5 hidden w-max max-[900px]:inline-flex"
+            className="self-baseline text-[.92rem] max-[900px]:self-start"
           >
             Umów spotkanie
           </Button>
         </div>
-
-        <Button href="#kontakt" size="sm" className="ml-2 max-[900px]:hidden">
-          Umów spotkanie
-        </Button>
 
         <button
           className="ml-auto hidden px-2 py-1 text-2xl leading-none max-[900px]:block"

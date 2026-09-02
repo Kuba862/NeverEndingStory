@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { KPIS, type HomeKpi } from "@/data/site";
+import { KPIS } from "@/data/site";
 import Container from "./ui/Container";
 import SectionHead from "./ui/SectionHead";
 
-function formatKpi(value: number, kpi: HomeKpi) {
+function formatKpi(value, kpi) {
   const prefix = kpi.prefix ?? "";
   const suffix = kpi.suffix ?? "";
 
@@ -16,8 +16,8 @@ function formatKpi(value: number, kpi: HomeKpi) {
   return `${prefix}${value.toLocaleString("pl-PL")}${suffix}`;
 }
 
-function Counter({ kpi }: { kpi: HomeKpi }) {
-  const ref = useRef<HTMLDivElement | null>(null);
+function Counter({ kpi }) {
+  const ref = useRef(null);
   const finalValue = kpi.staticValue ?? formatKpi(kpi.count, kpi);
   const [displayValue, setDisplayValue] = useState(
     kpi.staticValue ? finalValue : formatKpi(0, kpi),
@@ -51,7 +51,7 @@ function Counter({ kpi }: { kpi: HomeKpi }) {
           const start = performance.now();
           const duration = 1300;
 
-          const tick = (now: number) => {
+          const tick = (now) => {
             const progress = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
             setDisplayValue(formatKpi(Math.round(kpi.count * eased), kpi));
