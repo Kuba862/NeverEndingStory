@@ -1,5 +1,5 @@
 import { CONTACT } from "@/data/site";
-import Button from "./ui/Button";
+import ContactModalTrigger from "./ContactModalTrigger";
 import Container from "./ui/Container";
 import Display from "./ui/Display";
 import Eyebrow from "./ui/Eyebrow";
@@ -26,9 +26,9 @@ export default function ContactCta() {
             marka może wyglądać w social mediach i co realnie możemy dla niej
             zrobić.
           </p>
-          <Button href={`mailto:${CONTACT.email}`}>
+          <ContactModalTrigger>
             Umów niezobowiązujące spotkanie
-          </Button>
+          </ContactModalTrigger>
           <div className="mt-[26px] flex flex-col gap-2 text-base">
             <a
               className="w-max border-b-[1.5px] border-acc pb-0.5 font-bold"

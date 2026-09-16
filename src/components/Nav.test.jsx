@@ -12,7 +12,7 @@ describe("Nav", () => {
     );
 
     expect(sectionLinks).toHaveLength(4);
-    expect(screen.getAllByRole("link", { name: "Umów spotkanie" })).toHaveLength(1);
+    expect(screen.getAllByRole("button", { name: "Umów spotkanie" })).toHaveLength(1);
   });
 
   it("toggles the burger expanded state", async () => {

@@ -13,15 +13,7 @@ import Container from "./ui/Container";
 import Display from "./ui/Display";
 import Eyebrow from "./ui/Eyebrow";
 import Frame from "./ui/Frame";
-
-const focusableSelector = [
-  "a[href]",
-  "button:not([disabled])",
-  "textarea:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "[tabindex]:not([tabindex='-1'])",
-].join(",");
+import { useDialog } from "./ui/useDialog";
 
 function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -35,9 +27,7 @@ export default function CaseOverlay({
 }) {
   const currentCase = CASES[caseId];
   const closeButtonRef = useRef(null);
-  const closingRef = useRef(false);
-  const overlayRef = useRef(null);
-  const [open, setOpen] = useState(false);
+  const jumpToContactRef = useRef(false);
   const [progress, setProgress] = useState(0);
 
   const nextId = useMemo(() => {
@@ -46,7 +36,9 @@ export default function CaseOverlay({
   }, [caseId]);
 
   const finishClose = useCallback(
-    (returnFocus, jumpToContact) => {
+    () => {
+      const jumpToContact = jumpToContactRef.current;
+      jumpToContactRef.current = false;
       onClose();
 
       if (jumpToContact) {
@@ -56,106 +48,24 @@ export default function CaseOverlay({
         });
         return;
       }
-
-      if (returnFocus) {
-        returnFocusRef.current?.focus();
-      }
     },
-    [onClose, returnFocusRef],
+    [onClose],
   );
 
-  const close = useCallback(
-    ({ jumpToContact = false, returnFocus = true } = {}) => {
-      if (closingRef.current) {
-        return;
-      }
-
-      closingRef.current = true;
-      setOpen(false);
-
-      window.setTimeout(
-        () => finishClose(returnFocus, jumpToContact),
-        reducedMotion() ? 0 : 280,
-      );
-    },
-    [finishClose],
-  );
+  const { dialogRef: overlayRef, requestClose, visible } = useDialog({
+    onClosed: finishClose,
+    returnFocusRef,
+    initialFocusRef: closeButtonRef,
+  });
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
-
-  useEffect(() => {
-    closingRef.current = false;
-    overlayRef.current?.scrollTo({ top: 0 });
-
     const frame = window.requestAnimationFrame(() => {
+      overlayRef.current?.scrollTo({ top: 0 });
       setProgress(0);
-      setOpen(true);
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [caseId]);
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    closeButtonRef.current?.focus();
-  }, [open]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        close();
-        return;
-      }
-
-      if (event.key !== "Tab") {
-        return;
-      }
-
-      const overlay = overlayRef.current;
-      if (!overlay) {
-        return;
-      }
-
-      const focusable = Array.from(
-        overlay.querySelectorAll(focusableSelector),
-      ).filter((element) => !element.hasAttribute("disabled"));
-
-      if (focusable.length === 0) {
-        event.preventDefault();
-        return;
-      }
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      const active = document.activeElement;
-
-      if (event.shiftKey && active === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault();
-        first.focus();
-      } else if (active && !overlay.contains(active)) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [close]);
+  }, [caseId, overlayRef]);
 
   const handleScroll = () => {
     const overlay = overlayRef.current;
@@ -176,7 +86,7 @@ export default function CaseOverlay({
       onScroll={handleScroll}
       className={[
         "fixed inset-0 z-[100] overflow-y-auto bg-paper transition-[opacity,transform,visibility] duration-[280ms] ease-[cubic-bezier(.2,.7,.2,1)]",
-        open ? "visible translate-y-0 opacity-100" : "invisible translate-y-[14px] opacity-0",
+        visible ? "visible translate-y-0 opacity-100" : "invisible translate-y-[14px] opacity-0",
       ].join(" ")}
     >
       <div className="sticky top-0 z-[5] border-b border-ink/16 bg-paper/92 backdrop-blur-[10px]">
@@ -197,7 +107,7 @@ export default function CaseOverlay({
             ref={closeButtonRef}
             type="button"
             className="rounded-full border-[1.5px] border-ink px-4 py-2 text-[.88rem] font-[750] transition-colors hover:bg-ink hover:text-paper"
-            onClick={() => close()}
+            onClick={() => requestClose()}
           >
             Zamknij ✕
           </button>
@@ -359,7 +269,12 @@ export default function CaseOverlay({
             </small>
             {CASES[nextId].name} →
           </button>
-          <Button onClick={() => close({ jumpToContact: true, returnFocus: false })}>
+          <Button
+            onClick={() => {
+              jumpToContactRef.current = true;
+              requestClose({ returnFocus: false });
+            }}
+          >
             Chcę taki efekt u siebie
           </Button>
         </div>

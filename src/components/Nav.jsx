@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { NAV_LINKS } from "@/data/site";
-import Button from "./ui/Button";
+import ContactModalTrigger from "./ContactModalTrigger";
 import Container from "./ui/Container";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef(null);
   const menuId = "site-menu";
 
   const closeMenu = () => setOpen(false);
@@ -44,17 +45,18 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
-          <Button
-            href="#kontakt"
+          <ContactModalTrigger
             size="sm"
             onClick={closeMenu}
+            fallbackFocusRef={menuButtonRef}
             className="self-baseline text-[.92rem] max-[900px]:self-start"
           >
             Umów spotkanie
-          </Button>
+          </ContactModalTrigger>
         </div>
 
         <button
+          ref={menuButtonRef}
           className="ml-auto hidden px-2 py-1 text-2xl leading-none max-[900px]:block"
           type="button"
           aria-label="Menu"
