@@ -16,7 +16,7 @@ export default function Hero() {
             className="mt-[18px] mb-5 text-[clamp(2.7rem,6.4vw,5rem)]"
           >
             Zmieniamy relacje{" "}
-            <span className="inline-block font-serif text-[.94em] font-medium tracking-normal text-acc normal-case italic">
+            <span className="inline-block font-serif text-[.94em] font-medium tracking-normal text-acc-ink normal-case italic">
               w Relacje.
             </span>
           </Display>

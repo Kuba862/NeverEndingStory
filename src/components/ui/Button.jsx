@@ -12,7 +12,7 @@ export default function Button({
     size === "sm" ? "px-[18px] py-2.5 text-[.88rem]" : "px-6 py-[13px] text-[.95rem]",
     variant === "ghost"
       ? "bg-transparent text-ink shadow-[inset_0_0_0_1.5px_var(--color-ink)] hover:bg-ink hover:text-paper"
-      : "bg-acc text-white hover:bg-acc-d",
+      : "bg-acc text-ink hover:bg-acc-h",
     className,
   ].join(" ");
 

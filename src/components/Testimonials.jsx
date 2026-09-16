@@ -8,7 +8,7 @@ export default function Testimonials() {
     <section className="pb-[clamp(64px,9vw,110px)]" id="opinie">
       <SectionHead eyebrow="opinie klientów">
         Tak mówią o nas{" "}
-        <span className="font-serif font-medium tracking-normal text-acc normal-case italic">
+        <span className="font-serif font-medium tracking-normal text-acc-ink normal-case italic">
           w Google.
         </span>
       </SectionHead>
@@ -21,7 +21,7 @@ export default function Testimonials() {
             className="rounded-media border border-ink/16 bg-white p-[26px]"
           >
             <div
-              className="mb-3.5 text-base tracking-[3px] text-acc"
+              className="mb-3.5 text-base tracking-[3px] text-acc-ink"
               aria-label="5 gwiazdek"
             >
               ★★★★★
@@ -29,7 +29,7 @@ export default function Testimonials() {
             <blockquote className="font-serif text-[1.04rem] leading-[1.6] italic">
               {testimonial.quote}
             </blockquote>
-            <cite className="mt-4 block text-[.8rem] font-bold tracking-[.1em] text-ink/42 not-italic uppercase">
+            <cite className="mt-4 block text-[.8rem] font-bold tracking-[.1em] text-ink/62 not-italic uppercase">
               {testimonial.cite}
             </cite>
           </Reveal>

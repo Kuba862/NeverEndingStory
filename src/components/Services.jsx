@@ -8,7 +8,7 @@ export default function Services() {
     <section className="py-[clamp(64px,9vw,110px)]" id="uslugi">
       <SectionHead eyebrow="zakres działań">
         Wszystko w jednym{" "}
-        <span className="font-serif font-medium tracking-normal text-acc normal-case italic">
+        <span className="font-serif font-medium tracking-normal text-acc-ink normal-case italic">
           miejscu.
         </span>
       </SectionHead>

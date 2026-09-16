@@ -15,6 +15,12 @@ function preferReducedMotion() {
   }));
 }
 
+// Testing Library normalizuje białe znaki w DOM-ie, a pl-PL rozdziela tysiące
+// spacją nierozdzielającą — porównanie musi używać tej samej normalizacji.
+function normalizeSpaces(value) {
+  return value.replace(/\s/g, " ");
+}
+
 describe("Results", () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -26,7 +32,9 @@ describe("Results", () => {
 
     await waitFor(() => {
       expect(screen.getByText("+1500")).toBeInTheDocument();
-      expect(screen.getByText((218432).toLocaleString("pl-PL"))).toBeInTheDocument();
+      expect(
+        screen.getByText(normalizeSpaces((218432).toLocaleString("pl-PL"))),
+      ).toBeInTheDocument();
       expect(screen.getByText("0,34 zł")).toBeInTheDocument();
       expect(screen.getByText("5,0")).toBeInTheDocument();
     });

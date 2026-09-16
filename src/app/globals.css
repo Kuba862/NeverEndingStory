@@ -5,6 +5,10 @@
   --color-ink: #191410;
   --color-acc: #E0762A;
   --color-acc-d: #B85A17;
+  /* Jaśniejszy wariant do hoveru wypełnień z ciemnym tekstem (ink 7.3:1). */
+  --color-acc-h: #F08A3C;
+  /* Akcent tekstowy na jasnych tłach — 5.1:1 na paper, 5.3:1 na white (WCAG AA). */
+  --color-acc-ink: #A9520F;
   --color-wine: #2B0E13;
   --color-wine-2: #45141B;
   --color-white: #FFFDF9;
@@ -27,7 +31,7 @@ html {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-acc);
+  outline: 3px solid var(--color-acc-ink);
   outline-offset: 3px;
 }
 

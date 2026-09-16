@@ -9,7 +9,7 @@ export default function Team() {
     <section className="pb-[clamp(64px,9vw,110px)]" id="zespol">
       <SectionHead eyebrow="poznaj nas">
         Ekipa, którą zobaczysz{" "}
-        <span className="font-serif font-medium tracking-normal text-acc normal-case italic">
+        <span className="font-serif font-medium tracking-normal text-acc-ink normal-case italic">
           u siebie.
         </span>
       </SectionHead>

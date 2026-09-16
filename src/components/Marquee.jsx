@@ -12,7 +12,7 @@ export default function Marquee() {
             key={`${client}-${index}`}
           >
             {client}
-            <span className="ml-[26px] text-acc">·</span>
+            <span className="ml-[26px] text-acc-ink">·</span>
           </span>
         ))}
       </div>

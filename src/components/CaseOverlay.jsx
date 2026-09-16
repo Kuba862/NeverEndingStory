@@ -237,13 +237,13 @@ export default function CaseOverlay({
 
         <div className="mb-[clamp(40px,6vw,70px)] grid grid-cols-2 gap-[clamp(24px,4vw,52px)] max-[860px]:grid-cols-1">
           <div>
-            <h3 className="mb-2.5 font-stretch-[112%] text-base font-[850] uppercase text-acc">
+            <h3 className="mb-2.5 font-stretch-[112%] text-base font-[850] uppercase text-acc-ink">
               Wyzwanie
             </h3>
             <p className="text-ink/62">{currentCase.challenge}</p>
           </div>
           <div>
-            <h3 className="mb-2.5 font-stretch-[112%] text-base font-[850] uppercase text-acc">
+            <h3 className="mb-2.5 font-stretch-[112%] text-base font-[850] uppercase text-acc-ink">
               Co zrobiliśmy
             </h3>
             <p className="text-ink/62">{currentCase.solution}</p>
@@ -308,7 +308,7 @@ export default function CaseOverlay({
                 </Frame>
               ))}
             </div>
-            <p className="mt-3 text-[.82rem] text-ink/42">
+            <p className="mt-3 text-[.82rem] text-ink/62">
               Na stronie docelowej: pętle wideo 9:16 odtwarzane automatycznie,
               bez dźwięku.
             </p>
@@ -341,7 +341,7 @@ export default function CaseOverlay({
               {currentCase.quote}
             </blockquote>
             {currentCase.quoteSrc ? (
-              <cite className="mt-3.5 block text-[.8rem] font-bold tracking-[.1em] text-ink/42 not-italic uppercase">
+              <cite className="mt-3.5 block text-[.8rem] font-bold tracking-[.1em] text-ink/62 not-italic uppercase">
                 {currentCase.quoteSrc}
               </cite>
             ) : null}

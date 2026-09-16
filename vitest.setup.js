@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import React from "react";
-import { vi } from "vitest";
+import { beforeEach, vi } from "vitest";
 
 vi.mock("next/font/google", () => ({
   Archivo: () => ({ variable: "font-archivo", className: "font-archivo" }),
@@ -19,19 +19,27 @@ vi.mock("next/image", () => ({
   },
 }));
 
-Object.defineProperty(window, "matchMedia", {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
-});
+function stubMatchMedia() {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+}
+
+// Testy wołające vi.restoreAllMocks() w afterEach czyściły implementację tej
+// atrapy, więc kolejne testy w pliku dostawały undefined z window.matchMedia.
+stubMatchMedia();
+beforeEach(stubMatchMedia);
 
 window.requestAnimationFrame = (callback) => {
   callback(performance.now());

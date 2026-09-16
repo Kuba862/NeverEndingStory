@@ -21,7 +21,7 @@ export default function Nav() {
           onClick={closeMenu}
         >
           never ending{" "}
-          <span className="font-serif text-[1.12em] font-medium tracking-normal text-acc normal-case italic">
+          <span className="font-serif text-[1.12em] font-medium tracking-normal text-acc-ink normal-case italic">
             story.
           </span>
         </a>

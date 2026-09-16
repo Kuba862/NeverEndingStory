@@ -34,6 +34,8 @@ export default function Frame({
         alt={alt}
         fill
         preload={priority}
+        // Podbija priorytet samego <link rel="preload">, który wstawia next/image.
+        fetchPriority={priority ? "high" : undefined}
         sizes={sizes}
         className={`object-cover ${imageClassName}`}
       />

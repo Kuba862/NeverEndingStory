@@ -8,7 +8,7 @@ export default function Process() {
     <section className="py-[clamp(64px,9vw,110px)]" id="proces">
       <SectionHead eyebrow="jak pracujemy">
         Trzy kroki.{" "}
-        <span className="font-serif font-medium tracking-normal text-acc normal-case italic">
+        <span className="font-serif font-medium tracking-normal text-acc-ink normal-case italic">
           Zero chaosu.
         </span>
       </SectionHead>

@@ -16,8 +16,13 @@ function preferReducedMotion() {
   }));
 }
 
+function caseCardName(name) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`^Case study.*${escaped}$`);
+}
+
 async function openCase(user, name) {
-  await user.click(screen.getByRole("button", { name: `Otwórz case study: ${name}` }));
+  await user.click(screen.getByRole("button", { name: caseCardName(name) }));
   return screen.getByRole("dialog", { name });
 }
 
@@ -32,7 +37,7 @@ describe("CaseOverlay", () => {
     render(<Works />);
 
     const card = screen.getByRole("button", {
-      name: "Otwórz case study: Salute Wine Bar",
+      name: caseCardName("Salute Wine Bar"),
     });
     card.focus();
     await user.click(card);

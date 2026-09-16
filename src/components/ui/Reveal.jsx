@@ -31,6 +31,15 @@ export default function Reveal({
     let observer = null;
 
     const frame = window.requestAnimationFrame(() => {
+      const rect = node.getBoundingClientRect();
+
+      // Treść widoczna już przy wejściu na stronę zostaje odsłonięta od razu.
+      // Ukrywanie jej po pierwszym malowaniu unieważniało LCP (element był
+      // liczony ponownie dopiero po 600 ms animacji) i dawało efekt mignięcia.
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        return;
+      }
+
       setVisible(false);
       setArmed(true);
 

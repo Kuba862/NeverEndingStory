@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import Works from "./Works";
 
 function caseCards() {
-  return screen.getAllByRole("button", { name: /Otwórz case study:/ });
+  return screen.getAllByRole("button", { name: /^Case study/ });
 }
 
 describe("Works", () => {

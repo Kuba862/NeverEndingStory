@@ -28,7 +28,7 @@ export default function Works() {
         lead="Wybierz branżę i zobacz, jak wygląda nasza praca od środka — feedy, reelsy, kampanie i identyfikacje."
       >
         Każda marka to inna{" "}
-        <span className="font-serif font-medium tracking-normal text-acc normal-case italic">
+        <span className="font-serif font-medium tracking-normal text-acc-ink normal-case italic">
           historia.
         </span>
       </SectionHead>
@@ -64,7 +64,6 @@ export default function Works() {
           <button
             key={`${card.id}-${card.cat}-${index}`}
             type="button"
-            aria-label={`Otwórz case study: ${card.name}`}
             onClick={(event) => {
               triggerRef.current = event.currentTarget;
               setSelectedCase(card.id);
@@ -73,13 +72,13 @@ export default function Works() {
           >
             <Frame
               src={card.img}
-              alt={card.name}
+              alt=""
               aspect="4/5"
               sizes="(max-width: 460px) calc(100vw - 40px), (max-width: 760px) 45vw, (max-width: 1050px) 30vw, 285px"
               imageClassName="transition-transform duration-500 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.045]"
             />
-            <span className="absolute top-[34px] right-3 z-[3] translate-y-[-6px] rounded-full bg-acc px-[13px] py-[7px] text-[.76rem] font-[750] text-white opacity-0 transition-all duration-[220ms] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-              Case study →
+            <span className="absolute top-[34px] right-3 z-[3] translate-y-[-6px] rounded-full bg-acc px-[13px] py-[7px] text-[.76rem] font-[750] text-ink opacity-0 transition-all duration-[220ms] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+              Case study <span aria-hidden="true">→</span>
             </span>
             <span className="absolute right-0 bottom-0 left-0 z-[2] bg-gradient-to-t from-[rgba(20,10,6,.78)] to-[rgba(20,10,6,0)] px-4 pt-11 pb-4 text-white">
               <span className="block text-[.72rem] font-bold tracking-[.12em] uppercase opacity-85">
