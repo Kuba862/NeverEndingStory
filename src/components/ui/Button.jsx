@@ -32,7 +32,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={classes}
+      className={`${classes} cursor-pointer disabled:cursor-not-allowed`}
     >
       {children}
     </button>

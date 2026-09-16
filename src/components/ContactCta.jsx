@@ -52,7 +52,7 @@ export default function ContactCta() {
             aspect="4/4.8"
             sizes="(max-width: 900px) calc(100vw - 40px), 420px"
             chip="do zobaczenia!"
-            className="w-full"
+            className="w-full text-gray-900"
           />
         </Reveal>
       </Container>

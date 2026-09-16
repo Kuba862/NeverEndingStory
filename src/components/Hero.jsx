@@ -1,4 +1,5 @@
 import { HERO_TRUST } from "@/data/site";
+import ContactModalTrigger from "./ContactModalTrigger";
 import Button from "./ui/Button";
 import Container from "./ui/Container";
 import Display from "./ui/Display";
@@ -26,7 +27,9 @@ export default function Hero() {
             gastronomii, hoteli i beauty.
           </p>
           <div className="mb-[30px] flex flex-wrap gap-3.5">
-            <Button href="#kontakt">Umów niezobowiązujące spotkanie</Button>
+            <ContactModalTrigger>
+              Umów niezobowiązujące spotkanie
+            </ContactModalTrigger>
             <Button href="#realizacje" variant="ghost">
               Zobacz realizacje
             </Button>

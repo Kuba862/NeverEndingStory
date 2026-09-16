@@ -47,7 +47,7 @@ export default function Works() {
               aria-pressed={active}
               onClick={() => setFilter(item.value)}
               className={[
-                "rounded-full border-[1.5px] px-[18px] py-[9px] text-[.88rem] font-[650] transition-all duration-[160ms]",
+                "cursor-pointer rounded-full border-[1.5px] px-[18px] py-[9px] text-[.88rem] font-[650] transition-all duration-[160ms]",
                 active
                   ? "border-ink bg-ink text-paper"
                   : "border-ink/16 bg-white text-ink/62 hover:border-ink hover:text-ink",
@@ -68,7 +68,7 @@ export default function Works() {
               triggerRef.current = event.currentTarget;
               setSelectedCase(card.id);
             }}
-            className="group relative block w-full overflow-hidden rounded-media text-left"
+            className="group relative block w-full cursor-pointer overflow-hidden rounded-media text-left"
           >
             <Frame
               src={card.img}

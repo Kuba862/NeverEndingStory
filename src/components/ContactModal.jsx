@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { CONTACT } from "@/data/site";
 import * as contactForm from "@/lib/contact-form";
 import Button from "./ui/Button";
+import ModalShell from "./ui/ModalShell";
 import { useDialog } from "./ui/useDialog";
 
 const initialValues = {
@@ -77,8 +78,6 @@ export default function ContactModal({ onClose, returnFocusRef }) {
   const lastNameRef = useRef(null);
   const phoneRef = useRef(null);
   const messageRef = useRef(null);
-  const backdropPointerDownTargetRef = useRef(null);
-  const backdropPointerUpTargetRef = useRef(null);
   const fieldRefs = {
     firstName: firstNameRef,
     lastName: lastNameRef,
@@ -96,33 +95,6 @@ export default function ContactModal({ onClose, returnFocusRef }) {
     returnFocusRef,
     initialFocusRef: firstNameRef,
   });
-
-  const handleBackdropPointerDown = (event) => {
-    backdropPointerDownTargetRef.current = event.target;
-    backdropPointerUpTargetRef.current = null;
-  };
-
-  const handleBackdropPointerUp = (event) => {
-    backdropPointerUpTargetRef.current = event.target;
-  };
-
-  const handleBackdropPointerCancel = () => {
-    backdropPointerDownTargetRef.current = null;
-    backdropPointerUpTargetRef.current = null;
-  };
-
-  const handleBackdropClick = (event) => {
-    if (
-      event.target === event.currentTarget &&
-      backdropPointerDownTargetRef.current === event.currentTarget &&
-      backdropPointerUpTargetRef.current === event.currentTarget
-    ) {
-      requestClose();
-    }
-
-    backdropPointerDownTargetRef.current = null;
-    backdropPointerUpTargetRef.current = null;
-  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -208,165 +180,127 @@ export default function ContactModal({ onClose, returnFocusRef }) {
   ];
 
   const modal = (
-    <div
-      className={[
-        "fixed inset-0 z-[110] grid place-items-center overflow-y-auto bg-ink/70 px-(--pad) py-4 backdrop-blur-[6px] transition-[opacity,visibility] duration-[280ms] ease-[cubic-bezier(.2,.7,.2,1)]",
-        visible ? "visible opacity-100" : "invisible opacity-0",
-      ].join(" ")}
-      onPointerDown={handleBackdropPointerDown}
-      onPointerUp={handleBackdropPointerUp}
-      onPointerCancel={handleBackdropPointerCancel}
-      onClick={handleBackdropClick}
+    <ModalShell
+      ariaLabel="Umów niezobowiązujące spotkanie"
+      dialogRef={dialogRef}
+      requestClose={requestClose}
+      visible={visible}
     >
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        // Nagłówek jest ukryty wizualnie, więc nazwa okna idzie przez aria-label.
-        aria-label="Umów niezobowiązujące spotkanie"
-        className={[
-          "relative flex max-h-[calc(100dvh-2rem)] w-full max-w-[640px] flex-col overflow-hidden rounded-media bg-paper text-ink shadow-2xl transition-[opacity,transform] duration-[280ms] ease-[cubic-bezier(.2,.7,.2,1)]",
-          visible ? "translate-y-0 opacity-100" : "translate-y-[14px] opacity-0",
-        ].join(" ")}
-      >
-        <button
-          type="button"
-          aria-label="Zamknij"
-          onClick={() => requestClose()}
-          className="absolute top-[18px] right-[18px] z-[2] grid size-10 cursor-pointer place-items-center rounded-full border-[1.5px] border-ink/16 bg-white text-ink transition-[transform,background-color,border-color,color] duration-[220ms] ease-[cubic-bezier(.2,.7,.2,1)] hover:rotate-90 hover:border-ink hover:bg-ink hover:text-paper focus-visible:rotate-90"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false"
-            className="size-[18px]"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-          >
-            <path d="M6 6 18 18M18 6 6 18" />
-          </svg>
-        </button>
+      <p className="mb-5 pr-12 text-ink/62">
+        Zostaw kontakt, a odezwiemy się w ciągu jednego dnia roboczego.
+      </p>
 
-        <div className="overflow-y-auto p-[clamp(20px,3.2vw,28px)]">
-          <p className="mb-5 pr-12 text-ink/62">
-            Zostaw kontakt, a odezwiemy się w ciągu jednego dnia roboczego.
-          </p>
+      <form noValidate onSubmit={handleSubmit}>
+        <fieldset className="space-y-4 disabled:opacity-70" disabled={pending}>
+          <div className="grid gap-4 min-[560px]:grid-cols-2">
+            {fieldData.map((field) => {
+              const error = errors[field.name];
+              const fieldId = `${idPrefix}-${field.name}`;
+              const errorId = `${fieldId}-error`;
 
-          <form noValidate onSubmit={handleSubmit}>
-            <fieldset className="space-y-4 disabled:opacity-70" disabled={pending}>
-              <div className="grid gap-4 min-[560px]:grid-cols-2">
-                {fieldData.map((field) => {
-                  const error = errors[field.name];
-                  const fieldId = `${idPrefix}-${field.name}`;
-                  const errorId = `${fieldId}-error`;
-
-                  return (
-                    <div
-                      key={field.name}
-                      className={field.fullWidth ? "min-[560px]:col-span-2" : undefined}
-                    >
-                      <label
-                        className="block text-[.92rem] font-bold"
-                        htmlFor={fieldId}
-                      >
-                        {field.label}
-                      </label>
-                      <input
-                        ref={field.ref}
-                        id={fieldId}
-                        name={field.name}
-                        type={field.type}
-                        autoComplete={field.autoComplete}
-                        inputMode={field.inputMode}
-                        required
-                        maxLength={field.maxLength}
-                        value={values[field.name]}
-                        onChange={handleChange}
-                        aria-invalid={error ? "true" : undefined}
-                        aria-describedby={error ? errorId : undefined}
-                        className={fieldClassName(error)}
-                      />
-                      {error ? (
-                        <p
-                          id={errorId}
-                          className="mt-2 text-[.86rem] font-bold text-acc-ink"
-                        >
-                          {error}
-                        </p>
-                      ) : null}
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div>
-                <label
-                  className="block text-[.92rem] font-bold"
-                  htmlFor={`${idPrefix}-message`}
+              return (
+                <div
+                  key={field.name}
+                  className={field.fullWidth ? "min-[560px]:col-span-2" : undefined}
                 >
-                  Treść wiadomości
-                </label>
-                <textarea
-                  ref={messageRef}
-                  id={`${idPrefix}-message`}
-                  name="message"
-                  autoComplete="off"
-                  required
-                  rows={4}
-                  maxLength={2000}
-                  value={values.message}
-                  onChange={handleChange}
-                  aria-invalid={errors.message ? "true" : undefined}
-                  aria-describedby={
-                    errors.message ? `${idPrefix}-message-error` : undefined
-                  }
-                  className={`${fieldClassName(errors.message)} resize-y`}
-                />
-                {errors.message ? (
-                  <p
-                    id={`${idPrefix}-message-error`}
-                    className="mt-2 text-[.86rem] font-bold text-acc-ink"
+                  <label
+                    className="block text-[.92rem] font-bold"
+                    htmlFor={fieldId}
                   >
-                    {errors.message}
-                  </p>
-                ) : null}
-              </div>
+                    {field.label}
+                  </label>
+                  <input
+                    ref={field.ref}
+                    id={fieldId}
+                    name={field.name}
+                    type={field.type}
+                    autoComplete={field.autoComplete}
+                    inputMode={field.inputMode}
+                    required
+                    maxLength={field.maxLength}
+                    value={values[field.name]}
+                    onChange={handleChange}
+                    aria-invalid={error ? "true" : undefined}
+                    aria-describedby={error ? errorId : undefined}
+                    className={fieldClassName(error)}
+                  />
+                  {error ? (
+                    <p
+                      id={errorId}
+                      className="mt-2 text-[.86rem] font-bold text-acc-ink"
+                    >
+                      {error}
+                    </p>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
 
-              <Button type="submit" className="w-full justify-center">
-                Wyślij wiadomość
-              </Button>
-            </fieldset>
-          </form>
-
-          <div role="status" aria-live="polite" className="text-ink empty:hidden">
-            {result ? (
-              <div className="mt-4 space-y-2">
-                <p>Formularz nie jest jeszcze podłączony do wysyłki.</p>
-                <p>
-                  Napisz na{" "}
-                  <a
-                    className="font-bold text-acc-ink"
-                    href={`mailto:${CONTACT.email}`}
-                  >
-                    {CONTACT.email}
-                  </a>{" "}
-                  lub zadzwoń{" "}
-                  <a
-                    className="font-bold text-acc-ink"
-                    href={`tel:${CONTACT.phoneHref}`}
-                  >
-                    {CONTACT.phoneLabel}
-                  </a>
-                  .
-                </p>
-              </div>
+          <div>
+            <label
+              className="block text-[.92rem] font-bold"
+              htmlFor={`${idPrefix}-message`}
+            >
+              Treść wiadomości
+            </label>
+            <textarea
+              ref={messageRef}
+              id={`${idPrefix}-message`}
+              name="message"
+              autoComplete="off"
+              required
+              rows={4}
+              maxLength={2000}
+              value={values.message}
+              onChange={handleChange}
+              aria-invalid={errors.message ? "true" : undefined}
+              aria-describedby={
+                errors.message ? `${idPrefix}-message-error` : undefined
+              }
+              className={`${fieldClassName(errors.message)} resize-y`}
+            />
+            {errors.message ? (
+              <p
+                id={`${idPrefix}-message-error`}
+                className="mt-2 text-[.86rem] font-bold text-acc-ink"
+              >
+                {errors.message}
+              </p>
             ) : null}
           </div>
-        </div>
+
+          <Button type="submit" className="w-full justify-center">
+            Wyślij wiadomość
+          </Button>
+        </fieldset>
+      </form>
+
+      <div role="status" aria-live="polite" className="text-ink empty:hidden">
+        {result ? (
+          <div className="mt-4 space-y-2">
+            <p>Formularz nie jest jeszcze podłączony do wysyłki.</p>
+            <p>
+              Napisz na{" "}
+              <a
+                className="font-bold text-acc-ink"
+                href={`mailto:${CONTACT.email}`}
+              >
+                {CONTACT.email}
+              </a>{" "}
+              lub zadzwoń{" "}
+              <a
+                className="font-bold text-acc-ink"
+                href={`tel:${CONTACT.phoneHref}`}
+              >
+                {CONTACT.phoneLabel}
+              </a>
+              .
+            </p>
+          </div>
+        ) : null}
       </div>
-    </div>
+    </ModalShell>
   );
 
   return portalRoot ? createPortal(modal, portalRoot) : null;

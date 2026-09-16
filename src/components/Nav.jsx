@@ -57,7 +57,7 @@ export default function Nav() {
 
         <button
           ref={menuButtonRef}
-          className="ml-auto hidden px-2 py-1 text-2xl leading-none max-[900px]:block"
+          className="ml-auto hidden cursor-pointer px-2 py-1 text-2xl leading-none max-[900px]:block"
           type="button"
           aria-label="Menu"
           aria-expanded={open}

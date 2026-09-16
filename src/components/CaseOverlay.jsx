@@ -106,7 +106,7 @@ export default function CaseOverlay({
           <button
             ref={closeButtonRef}
             type="button"
-            className="rounded-full border-[1.5px] border-ink px-4 py-2 text-[.88rem] font-[750] transition-colors hover:bg-ink hover:text-paper"
+            className="cursor-pointer rounded-full border-[1.5px] border-ink px-4 py-2 text-[.88rem] font-[750] transition-colors hover:bg-ink hover:text-paper"
             onClick={() => requestClose()}
           >
             Zamknij ✕
@@ -261,7 +261,7 @@ export default function CaseOverlay({
         <div className="flex flex-wrap items-center justify-between gap-5 border-t border-ink/16 pt-[34px]">
           <button
             type="button"
-            className="text-left font-stretch-[112%] text-[1.2rem] font-[850] uppercase"
+            className="cursor-pointer text-left font-stretch-[112%] text-[1.2rem] font-[850] uppercase"
             onClick={() => onSelectCase(nextId)}
           >
             <small className="mb-1 block font-stretch-[100%] text-[.8rem] font-semibold tracking-[.02em] text-ink/62 normal-case">

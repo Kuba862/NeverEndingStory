@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as contactForm from "@/lib/contact-form";
 import ContactCta from "./ContactCta";
+import Hero from "./Hero";
 import Nav from "./Nav";
 
 function preferReducedMotion() {
@@ -33,6 +34,21 @@ async function openFromNav(user) {
 
 async function openFromContactCta(user) {
   render(<ContactCta />);
+  const trigger = screen.getByRole("button", {
+    name: "Umów niezobowiązujące spotkanie",
+  });
+  await user.click(trigger);
+
+  return {
+    dialog: await screen.findByRole("dialog", {
+      name: "Umów niezobowiązujące spotkanie",
+    }),
+    trigger,
+  };
+}
+
+async function openFromHero(user) {
+  render(<Hero />);
   const trigger = screen.getByRole("button", {
     name: "Umów niezobowiązujące spotkanie",
   });
@@ -78,6 +94,39 @@ describe("ContactModal", () => {
     const { dialog } = await openFromContactCta(user);
 
     expect(dialog).toBeInTheDocument();
+  });
+
+  it("renders the Hero meeting CTA as a button, not a link", () => {
+    render(<Hero />);
+
+    const trigger = screen.getByRole("button", {
+      name: "Umów niezobowiązujące spotkanie",
+    });
+
+    expect(trigger.tagName).toBe("BUTTON");
+    expect(
+      screen.queryByRole("link", {
+        name: "Umów niezobowiązujące spotkanie",
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens the contact dialog from the Hero meeting CTA", async () => {
+    preferReducedMotion();
+    const user = userEvent.setup();
+    const { dialog } = await openFromHero(user);
+
+    expect(dialog).toBeInTheDocument();
+  });
+
+  it("keeps the Hero meeting CTA free of an href", () => {
+    render(<Hero />);
+
+    expect(
+      screen.getByRole("button", {
+        name: "Umów niezobowiązujące spotkanie",
+      }),
+    ).not.toHaveAttribute("href");
   });
 
   it("collapses the mobile menu when the header CTA opens the dialog", async () => {
